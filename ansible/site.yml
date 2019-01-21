@@ -1,0 +1,7 @@
+---
+
+- name: netdata
+  hosts: openstack
+  become: yes
+  roles:
+    - centos-netdata

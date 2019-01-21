@@ -1,0 +1,14 @@
+[instances]
+scsqccollector ansible_ssh_host=192.168.12.17
+scsqcconsumer ansible_ssh_host=192.168.12.18
+scsqchaproxy ansible_ssh_host=192.168.12.20
+scsqckafka ansible_ssh_host=192.168.12.14
+scsqcmqtt ansible_ssh_host=192.168.12.16
+scsqcnoti ansible_ssh_host=192.168.12.19
+scsqcportal ansible_ssh_host=192.168.12.21
+scsqcredis ansible_ssh_host=192.168.12.15
+
+[instances:vars]
+ansible_user=centos
+ansible_ssh_private_key_file=/root/.ssh/id_rsa
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'

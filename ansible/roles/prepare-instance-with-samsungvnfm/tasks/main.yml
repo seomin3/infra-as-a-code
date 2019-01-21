@@ -1,0 +1,24 @@
+---
+# tasks file for prepare-instance-with-samsungvnfm
+
+- name: copy to instance it network configure script
+  template:
+    src: meta_parser.py.j2
+    dest: "{{ default_script_path }}/meta_parser.py"
+    mode: 0744
+
+- name: copy to instance it rc script
+  template:
+    src: meta_rc.sh.j2
+    dest: "{{ default_script_path }}/meta_rc.sh"
+    mode: 0744
+
+- name: change permit rc.local
+  file:
+    path: /etc/rc.d/rc.local
+    mode: 0744
+
+- name: insert command line to rc.local
+  lineinfile:
+    path: /etc/rc.d/rc.local
+    line: "bash -x {{ default_script_path }}/meta_rc.sh"
