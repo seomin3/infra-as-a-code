@@ -1,5 +1,10 @@
 ---
 
+- name: install reuired package
+  yum:
+    name: python-pymongo
+    state: present
+
 - name: download install script
   get_url:
     url: https://my-netdata.io/kickstart.sh

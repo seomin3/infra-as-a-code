@@ -1,0 +1,5 @@
+openstack_release: "rocky"
+cont_hostname: "controller01"
+args_yum_update: "no"
+rabbitmq_plugins:
+  - rabbitmq_management
