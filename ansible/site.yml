@@ -1,7 +1,9 @@
 ---
 
-- name: netdata
-  hosts: openstack
+- name: preparing redhat linux
+  hosts: "{{ host_group | default('host_group') }}"
   become: yes
   roles:
-    - centos-netdata
+    - centos-common
+#    - centos-netdata
+    - preparing-osp-host

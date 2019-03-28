@@ -1,0 +1,14 @@
+---
+- name: allow kubelet
+  firewalld:
+    port: 10250/tcp
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: allow netdata
+  firewalld:
+    port: 19999/tcp
+    permanent: yes
+    immediate: yes
+    state: enabled

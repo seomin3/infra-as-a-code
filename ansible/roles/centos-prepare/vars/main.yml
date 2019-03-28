@@ -1,0 +1,12 @@
+basic_packages:
+  - openstack-packstack
+  - dstat
+  - htop
+  - screen
+  - tcpdump
+  - wget
+  - libselinux-python
+  - openstack-utils
+  - numactl
+  - scsi-target-utils
+  - iscsi-initiator-utils

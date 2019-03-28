@@ -1,0 +1,3 @@
+---
+openshift_user: "centos"
+openshift_repository_dir: "/home/{{ openshift_user }}/openshift-ansible"

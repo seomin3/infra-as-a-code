@@ -1,0 +1,84 @@
+---
+- name: turn off selinux
+  selinux:
+    policy: targeted
+    state: permissive
+  register: selinux_result
+
+- name: Reboot immediately if there was a change.
+  shell: "sleep 5 && reboot"
+  async: 1
+  poll: 0
+  when: selinux_result is changed
+
+- name: Wait for the reboot to complete if there was a change.
+  wait_for_connection:
+    connect_timeout: 20
+    sleep: 5
+    delay: 5
+    timeout: 300
+  when: selinux_result is changed
+
+- name: install base packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ base_packages }}"
+
+- name: install the EPEL repository
+  yum:
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    state: present
+
+- name: install ansible
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - ansible
+    - pyOpenSSL
+
+- name: clone repository from github
+  git:
+    repo: https://github.com/openshift/openshift-ansible
+    dest: "{{ openshift_repository_dir }}"
+    version: release-3.11
+    update: no
+  when: inventory_hostname == "openshift-master01"
+
+- name: change ownership to osp repository
+  file:
+    path: "{{ openshift_repository_dir }}"
+    owner: "{{ openshift_user }}"
+    group: "{{ openshift_user }}"
+    recurse: yes
+
+- name: install docker
+  yum:
+    name: docker-1.13.1
+    state: present
+
+- name: manage docker config
+  template:
+    src: sysconfig/docker.j2
+    dest: /etc/sysconfig/docker
+  register: docker_config_result
+
+- name: manage docker config
+  template:
+    src: docker/daemon.json.j2
+    dest: /etc/docker/daemon.json
+  register: docker_config_result
+
+- name: start docker
+  service:
+    name: docker
+    state: restarted
+    enabled: yes
+  when: docker_config_result is changed
+
+- name: start NetworkManager
+  service:
+    name: NetworkManager
+    state: started
+    enabled: yes

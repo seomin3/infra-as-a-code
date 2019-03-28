@@ -1,0 +1,50 @@
+---
+- name: change hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: deploy hosts file
+  template:
+    src: hosts.j2
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: 0644
+
+- name: deploy pubaic key for user
+  template:
+    src: authorized_keys.j2
+    dest: "/home/{{ username }}/.ssh/authorized_keys"
+    owner: centos
+    group: centos
+    mode: 0600
+    backup: yes
+  when: args_pubkey_update == "yes"
+
+- name: install epel repository
+  yum:
+    name: epel-release
+    state: present
+
+- name: update latest version of packages
+  yum:
+    name: "*"
+    state: latest
+    disablerepo: "epel"
+  ignore_errors: yes
+
+- name: install basic packages
+  yum:
+    name: "{{ basic_packages }}"
+    state: present
+    update_cache: yes
+
+- name: install debuging packages
+  yum:
+    name: "{{ debuging_packages }}"
+    state: present
+  when: args_debug_update == "yes"
+
+- name: allow port for services
+  include: firewall.yml
+  when: args_firewall_update == "yes"
