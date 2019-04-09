@@ -1,0 +1,7 @@
+---
+
+- include: centos-universal.yml
+- include: openstack-controller.yml
+  when: '"{{ cont_hostname }}" == ansible_hostname'
+- include: openstack-compute.yml
+  when: '"{{ comp_group }}" == group_names'

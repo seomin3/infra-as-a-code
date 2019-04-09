@@ -1,0 +1,6 @@
+openstack_release: "rocky"
+cont_hostname: "pofcs-openstack-controller01"
+comp_group: "TBU"
+args_yum_update: "no"
+rabbitmq_plugins:
+  - rabbitmq_management
