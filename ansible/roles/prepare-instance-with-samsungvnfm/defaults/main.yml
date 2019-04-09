@@ -1,4 +1,0 @@
----
-# defaults file for prepare-instance-with-samsungvnfm
-
-default_script_path: "/root"
