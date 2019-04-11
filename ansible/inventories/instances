@@ -1,10 +1,20 @@
 [instances]
-pofcs-kubernetes-node01  ansible_ssh_host=192.168.11.201
-pofcs-kubernetes-node02  ansible_ssh_host=192.168.11.202
-pofcs-kubernetes-node03  ansible_ssh_host=192.168.11.203
-pofcs-kubernetes-node04  ansible_ssh_host=192.168.11.204
-pofcs-kubernetes-node05  ansible_ssh_host=192.168.11.205
-pofcs-kubernetes-node06  ansible_ssh_host=192.168.11.206
+#taco-master21 ansible_ssh_host=10.10.32.130
+#taco-master22 ansible_ssh_host=10.10.32.119
+#taco-master23 ansible_ssh_host=10.10.32.116
+#taco-master31 ansible_ssh_host=10.10.32.127
+#taco-master32 ansible_ssh_host=10.10.32.117
+#taco-master33 ansible_ssh_host=10.10.32.113
+taco-master41 ansible_ssh_host=10.10.32.134
+taco-master42 ansible_ssh_host=10.10.32.133
+taco-master43 ansible_ssh_host=10.10.32.131
+#taco-node21 ansible_ssh_host=10.10.32.112
+#taco-node22 ansible_ssh_host=10.10.32.121
+#taco-node31 ansible_ssh_host=10.10.32.114
+taco-node32 ansible_ssh_host=10.10.32.118
+taco-node41 ansible_ssh_host=10.10.32.135
+taco-node42 ansible_ssh_host=10.10.32.132
+
 
 [instances:vars]
 ansible_user=centos
