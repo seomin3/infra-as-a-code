@@ -49,6 +49,7 @@
     state: latest
     disablerepo: "epel"
   ignore_errors: yes
+  when: args_centos_updqate == "yes"
 
 - name: install basic packages
   yum:
@@ -69,4 +70,4 @@
 - name: insert alias at bashrc
   lineinfile:
     path: /root/.bashrc
-    line: "alias opsconf='grep -v '\''^$\|^\s*\#'\'' '"
+    line: "alias opsconf='grep -v '\\''^$\\|^\\s*\\#'\\'' '"

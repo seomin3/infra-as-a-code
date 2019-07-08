@@ -1,4 +1,8 @@
 ---
+- name: remove docker-ce
+  yum:
+    name: docker-ce
+    state: absent
 
 - service:
     name: "{{ item }}"

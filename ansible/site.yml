@@ -13,4 +13,4 @@
   become: yes
   roles:
     - centos-preparing-for-instances
-    - centos-netdata
+#    - centos-netdata

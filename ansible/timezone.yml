@@ -1,0 +1,5 @@
+- hosts: nssf-g101
+  name: Set timezone to Asia/Tokyo
+  tasks:
+    - timezone:
+        name: Asia/Tokyo
