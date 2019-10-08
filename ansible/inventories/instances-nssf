@@ -1,0 +1,31 @@
+[instances]
+ap-base ansible_ssh_host=192.168.11.238
+ems01 ansible_ssh_host=192.168.11.233
+ems02 ansible_ssh_host=192.168.11.234
+nssf-db01 ansible_ssh_host=192.168.11.201
+nssf-db02 ansible_ssh_host=192.168.11.202
+nssf-ems01 ansible_ssh_host=192.168.11.203
+nssf-ems02 ansible_ssh_host=192.168.11.204
+nssf-gl01 ansible_ssh_host=192.168.11.213
+nssf-gl02 ansible_ssh_host=192.168.11.214
+nssf-gl03 ansible_ssh_host=192.168.11.215
+nssf-gl04 ansible_ssh_host=192.168.11.216
+nssf-gl05 ansible_ssh_host=192.168.11.217
+nssf-gl06 ansible_ssh_host=192.168.11.218
+nssf-lb01 ansible_ssh_host=192.168.11.205
+nssf-lb02 ansible_ssh_host=192.168.11.206
+nssf-sa01 ansible_ssh_host=192.168.11.207
+nssf-sa02 ansible_ssh_host=192.168.11.208
+nssf-ss01 ansible_ssh_host=192.168.11.209
+nssf-ss02 ansible_ssh_host=192.168.11.210
+nssf-ss03 ansible_ssh_host=192.168.11.211
+nssf-ss04 ansible_ssh_host=192.168.11.212
+nssf-ss05 ansible_ssh_host=192.168.11.221
+nssf-ss06 ansible_ssh_host=192.168.11.222
+sim1 ansible_ssh_host=192.168.11.235
+sim2 ansible_ssh_host=192.168.11.237
+
+[instances:vars]
+ansible_user=centos
+ansible_ssh_private_key_file=/root/.ssh/id_rsa
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'

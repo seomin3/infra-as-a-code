@@ -1,6 +1,9 @@
 *.retry
-.terraform
 .terraform.tfstate.lock.info
+*.terraform
+**/terraform.tfstate
+**/terraform.tfstate.backup
+terraform.tfstate/*
 provider.tf
 .tar.gz
 .tar.xz

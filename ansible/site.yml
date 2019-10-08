@@ -6,11 +6,21 @@
   roles:
     - centos-common
     - centos-preparing-for-packstack
-    - centos-netdata
+  tags:
+    - openstack
 
 - name: preparing instances of kubernetes
   hosts: "{{ host_group | default('instances') }}"
   become: yes
   roles:
     - centos-preparing-for-instances
-#    - centos-netdata
+  tags:
+    - instances
+
+- name: install netdata to OpenStack nodes
+  hosts: "{{ host_group | default('openstack') }}"
+  become: yes
+  roles:
+    - centos-netdata
+  tags:
+    - netdata
