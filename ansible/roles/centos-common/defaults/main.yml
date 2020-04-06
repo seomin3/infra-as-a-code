@@ -4,3 +4,4 @@ args_debug_update: no
 args_resolv_update: no
 args_firewall_update: no
 args_centos_updqate: no
+args_hosts_update: no
