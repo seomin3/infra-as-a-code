@@ -14,3 +14,14 @@
   command: bash /root/netdata.sh --non-interactive
   register: bash_result
   when: which_result.rc != 0
+
+- name: allow 19999 port
+  iptables:
+    action: insert
+    rule_num: 10
+    chain: INPUT
+    protocol: tcp
+    destination_port: 19999
+    jump: ACCEPT
+    state: present
+  ignore_errors: yes

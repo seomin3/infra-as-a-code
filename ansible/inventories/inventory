@@ -1,0 +1,48 @@
+
+###############################################################################
+#  NSSF                                                                       #
+###############################################################################
+[nssf:vars]
+ansible_ssh_private_key_file=/opt/dropbox/keypair/lab-nssf/id_rsa
+
+[nssf:children]
+nssf-cont
+nssf-comp
+
+[nssf-cont]
+nssf-cont1  ansible_ssh_host=192.168.11.84
+[nssf-comp]
+nssf-comp1  ansible_ssh_host=192.168.11.80
+nssf-comp2  ansible_ssh_host=192.168.11.81
+nssf-comp3  ansible_ssh_host=192.168.11.82
+nssf-comp4  ansible_ssh_host=192.168.11.83
+
+###############################################################################
+#  SCS                                                                        #
+###############################################################################
+[scs:vars]
+ansible_ssh_private_key_file=/opt/dropbox/keypair/lab-scs/id_rsa
+
+[scs:children]
+scs-cont
+scs-comp
+
+[scs-cont]
+cont1 ansible_ssh_host=192.168.3.22
+
+[scs-comp]
+com1 ansible_ssh_host=192.168.3.21
+com2 ansible_ssh_host=192.168.3.23
+com3 ansible_ssh_host=192.168.3.24
+
+
+[ops-cont:children]
+nssf-cont
+scs-cont
+
+[dev-env:children]
+nssf
+scs
+
+[dev-env:vars]
+ansible_user=root

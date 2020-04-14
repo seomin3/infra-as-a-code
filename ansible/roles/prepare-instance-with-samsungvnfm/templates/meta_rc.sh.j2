@@ -1,7 +1,0 @@
-if [ -f "/root/INSTALLED" ]; then
-  echo "configuration installed"
-else
-  python {{ default_script_path }}/meta_parser.py &
-  touch "/root/INSTALLED"
-  sleep 5
-fi

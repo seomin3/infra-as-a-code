@@ -1,0 +1,6 @@
+---
+- name: change memory mode to dbengine
+  template:
+    src: netdata.conf.j2
+    dest: /etc/netdata/netdata.conf
+  notify: restart netdata
