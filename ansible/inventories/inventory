@@ -28,21 +28,55 @@ scs-cont
 scs-comp
 
 [scs-cont]
-cont1 ansible_ssh_host=192.168.3.22
-
+scs-cont1 ansible_ssh_host=192.168.11.30
 [scs-comp]
-com1 ansible_ssh_host=192.168.3.21
-com2 ansible_ssh_host=192.168.3.23
-com3 ansible_ssh_host=192.168.3.24
+scs-com1 ansible_ssh_host=192.168.11.31
+scs-com2 ansible_ssh_host=192.168.11.32
+scs-com3 ansible_ssh_host=192.168.11.33
 
+###############################################################################
+#  SCEF                                                                       #
+###############################################################################
+[scef:vars]
+ansible_ssh_private_key_file=/opt/dropbox/keypair/lab-scef/id_rsa
 
+[scef:children]
+scef-cont
+scef-comp
+
+[scef-cont]
+scef-cont1 ansible_ssh_host=192.168.5.43
+[scef-comp]
+scef-comp1 ansible_ssh_host=192.168.5.44
+scef-comp2 ansible_ssh_host=192.168.5.45
+
+###############################################################################
+#  Smart City                                                                 #
+###############################################################################
+[sc:vars]
+ansible_ssh_private_key_file=/opt/dropbox/keypair/lab-scs/id_rsa
+
+[sc:children]
+sc-cont
+
+[sc-cont]
+sc-cont1 ansible_ssh_host=192.168.11.34
+
+###############################################################################
+# Global Variables                                                            #
+###############################################################################
 [ops-cont:children]
 nssf-cont
 scs-cont
+scef-cont
+sc-cont
 
 [dev-env:children]
 nssf
 scs
+scef
+sc
 
 [dev-env:vars]
 ansible_user=root
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'

@@ -4,3 +4,15 @@
     src: netdata.conf.j2
     dest: /etc/netdata/netdata.conf
   notify: restart netdata
+
+- name: enable alarm setting to teams
+  template:
+    src: health_alarm_notify.conf.j2
+    dest: /etc/netdata/health_alarm_notify.conf
+  notify: restart netdata
+
+- name: disable the packet drop alarm
+  template:
+    src: net.conf.j2
+    dest: /etc/netdata/health.d/net.conf
+  notify: restart netdata

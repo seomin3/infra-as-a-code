@@ -1,0 +1,7 @@
+---
+
+- name: install netdata
+  hosts: "{{ host_group | default('dev-env') }}"
+  roles:
+    - centos-netdata
+  gather_facts: yes
