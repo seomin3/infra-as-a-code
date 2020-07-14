@@ -1,0 +1,6 @@
+openstack_release: "stein"
+cont_hostname: "TBU"
+comp_group: "TBU"
+args_yum_update: "no"
+rabbitmq_plugins:
+  - rabbitmq_management

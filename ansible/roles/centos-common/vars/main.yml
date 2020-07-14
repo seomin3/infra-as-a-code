@@ -1,0 +1,9 @@
+---
+username: "centos"
+basic_packages:
+  - dstat
+  - htop
+  - screen
+  - tcpdump
+  - wget
+  - libselinux-python

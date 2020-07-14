@@ -1,0 +1,7 @@
+---
+args_pubkey_update: no
+args_debug_update: yes
+args_resolv_update: yes
+args_firewall_update: yes
+args_centos_updqate: no
+args_hosts_update: no

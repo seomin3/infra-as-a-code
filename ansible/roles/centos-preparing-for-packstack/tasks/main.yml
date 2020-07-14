@@ -1,0 +1,9 @@
+---
+
+- include: centos-universal.yml
+- include: openstack-controller.yml
+  when: "'ops-cont' in group_names"
+
+# If you wanna compute node will enable iommu feature, uncomment below.
+#- include: openstack-compute.yml
+#  when: '"{{ comp_group }}" == group_names'
