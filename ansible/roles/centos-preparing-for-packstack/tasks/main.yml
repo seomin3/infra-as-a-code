@@ -4,5 +4,6 @@
 - include: openstack-controller.yml
   when: '"{{ cont_hostname }}" == ansible_hostname'
 
+# If you wanna compute node will enable iommu feature, uncomment below.
 #- include: openstack-compute.yml
 #  when: '"{{ comp_group }}" == group_names'

@@ -25,6 +25,12 @@
   when: openstack_release == "queens"
 
 - yum:
+    name: "openstack-packstack"
+    state: present
+    disablerepo: "epel"
+  when: ansible_hostname == "{{ cont_hostname }}"
+
+- yum:
     name: "{{ item }}"
     state: present
     update_cache: yes

@@ -1,7 +1,7 @@
 ---
 
-- yum:
-    name: "{{ item }}"
+- name: install packages to the controller
+  yum:
     state: present
     disablerepo: "epel"
   with_items:
@@ -9,7 +9,13 @@
     - mariadb-server
     - crudini
 
-- name: incaease nofile limit
+- name: apply a workaround to packstack's ovs pp file
+  replace:
+    path: /usr/share/openstack-puppet/modules/packstack/manifests/neutron/ovs_agent.pp
+    regexp: "force_ip\\(\\$localip\\)"
+    replace: "force_ip($my_ip)"
+
+- name: incaease nofile
   pam_limits:
     domain: "{{ item.user }}"
     limit_type: '-'
