@@ -1,3 +1,65 @@
+###############################################################################
+#  IPMDN LAB                                                                  #
+###############################################################################
+[ipmdn-lab:vars]
+ansible_ssh_private_key_file=/opt/dropbox/keypair/lab-ipmdn-lab/id_rsa
+
+[ipmdn-lab:children]
+ipmdn-cont
+ipmdn-comp
+
+[ipmdn-cont]
+ipmdn-lab1  ansible_ssh_host=192.168.5.185
+
+[ipmdn-comp]
+ipmdn-lab1  ansible_ssh_host=192.168.5.185
+ipmdn-lab2  ansible_ssh_host=192.168.5.186
+
+[ipmdn-vm:vars]
+ansible_ssh_private_key_file=/opt/dropbox/keypair/lab-ipmdn-lab/id_rsa
+ansible_ssh_user=centos
+
+[ipmdn-vm]
+lab-ipmdn-ap01  ansible_ssh_host=192.168.55.2
+lab-ipmdn-ap02  ansible_ssh_host=192.168.55.3
+lab-ipmdn-ss-db01  ansible_ssh_host=192.168.55.4
+lab-ipmdn-ss-db02  ansible_ssh_host=192.168.55.5
+lab-ipmdn-ss-db03  ansible_ssh_host=192.168.55.6
+
+###############################################################################
+#  RND                                                                        #
+###############################################################################
+[rnd:vars]
+ansible_ssh_private_key_file=/opt/dropbox/keypair/lab-rnd/id_rsa
+
+[rnd:children]
+rnd-cont
+rnd-comp
+
+[rnd-cont]
+rnd-openstack-cont1  ansible_ssh_host=192.168.15.11
+[rnd-comp]
+rnd-openstack-comp1  ansible_ssh_host=192.168.15.12
+rnd-openstack-comp2  ansible_ssh_host=192.168.15.13
+rnd-openstack-comp3  ansible_ssh_host=192.168.15.14
+rnd-openstack-comp4  ansible_ssh_host=192.168.15.15
+
+###############################################################################
+#  RND IP-MDN                                                                 #
+###############################################################################
+[rnd-vm:vars]
+ansible_ssh_private_key_file=/opt/dropbox/keypair/lab-rnd/id_rsa
+ansible_ssh_user=centos
+
+[rnd-vm]
+ipmdn-ap01  ansible_ssh_host=192.168.14.72
+ipmdn-ap02  ansible_ssh_host=192.168.14.73
+ipmdn-ss-db01  ansible_ssh_host=192.168.14.74
+ipmdn-ss-db02  ansible_ssh_host=192.168.14.75
+ipmdn-ds-db01  ansible_ssh_host=192.168.14.76
+ipmdn-ds-db02  ansible_ssh_host=192.168.14.77
+ipmdn-ems01 ansible_ssh_host=192.168.14.78
+ipmdn-ems02 ansible_ssh_host=192.168.14.79
 
 ###############################################################################
 #  NSSF                                                                       #
@@ -22,17 +84,22 @@ nssf-comp4  ansible_ssh_host=192.168.11.83
 ###############################################################################
 [scs:vars]
 ansible_ssh_private_key_file=/opt/dropbox/keypair/lab-scs/id_rsa
+openstack_release=queens
 
 [scs:children]
 scs-cont
 scs-comp
+scs-comp1
 
 [scs-cont]
-scs-cont1 ansible_ssh_host=192.168.11.30
+scs-openstack-controller01 ansible_ssh_host=192.168.11.30
 [scs-comp]
-scs-com1 ansible_ssh_host=192.168.11.31
-scs-com2 ansible_ssh_host=192.168.11.32
-scs-com3 ansible_ssh_host=192.168.11.33
+scs-openstack-compute01 ansible_ssh_host=192.168.11.31
+scs-openstack-compute02 ansible_ssh_host=192.168.11.32
+scs-openstack-compute03 ansible_ssh_host=192.168.11.33
+[scs-comp1]
+scs-openstack-compute04 ansible_ssh_host=192.168.11.36
+scs-openstack-compute05 ansible_ssh_host=192.168.11.37
 
 ###############################################################################
 #  SCEF                                                                       #
@@ -66,16 +133,19 @@ sc-cont1 ansible_ssh_host=192.168.11.34
 # Global Variables                                                            #
 ###############################################################################
 [ops-cont:children]
+rnd-cont
 nssf-cont
 scs-cont
 scef-cont
 sc-cont
 
 [dev-env:children]
+rnd
 nssf
 scs
 scef
 sc
+ipmdn-lab
 
 [dev-env:vars]
 ansible_user=root
