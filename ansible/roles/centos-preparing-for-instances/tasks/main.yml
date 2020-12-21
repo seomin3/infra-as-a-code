@@ -1,0 +1,56 @@
+---
+- name: install epel repository
+  yum:
+    name: epel-release
+    state: present
+
+- name: install some packages for debuging an issue
+  yum:
+    name: "{{ basic_packages }}"
+    state: present
+    update_cache: yes
+
+- name: create normal user
+  user:
+    name: suser
+    password: "$6$ntels$Gi3l9unFrLR5zTrN89nGMDDuYOB5xalvTIMlKPdyrXu/70NfcEx60UGixPgBfmP4C5mPl9XdDWx6pWrySKTJg/"
+
+- name: set password of root
+  user:
+    name: root
+    password: "$6$ntels$dPqXxcGkLG7ArctR87qNq6kSjKWwH8xsUnn9x3.BGbmD4iCE9Tup1dOCmG7HsazToQUNi8kU/6upQTbPO3AMs/"
+
+- name: enable password challenge
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^(.*)PasswordAuthentication no'
+    line: 'PasswordAuthentication yes'
+  notify: sshd_restart
+
+- name: allow root login
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^(.*)PermitRootLogin\s+'
+    line: 'PermitRootLogin yes'
+  notify: sshd_restart
+
+- name: configure cloud.cfg
+  replace:
+    path: /etc/cloud/cloud.cfg
+    after: "ssh_pwauth: "
+    regexp: "0"
+    replace: "1"
+    backup: yes
+
+- name: privilage sudo command for suser
+  template:
+    src: etc/sudoers.d/suser.j2
+    dest: /etc/sudoers.d/suser
+
+- name: set default time zone from UTC to KST
+  timezone:
+    name: Asia/Seoul
+
+- name: tunning for ip-mdn instances
+  include_tasks: ipmdn.yml
+  when: host_group == 'vm-ipmdn' or host_group == 'ipmdn-vm'

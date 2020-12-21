@@ -1,0 +1,27 @@
+---
+- name: permanently increase all vm's interfaces that their tx queue length
+  template:
+    src: etc/udev/rules.d/71-net-txqueuelen.rules
+    dest: /etc/udev/rules.d/71-net-txqueuelen.rules
+    backup: yes
+
+- name: apply to increase tx queue length immediately
+  command: 'ifconfig eth1 txqueuelen 100000'
+
+- name: update the nic's queue size
+  sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+    reload: yes
+  with_items:
+    - { name: 'net.core.rmem_default', value: '268435456' }
+    - { name: 'net.core.rmem_max', value: '536870912' }
+    - { name: 'net.core.wmem_default', value: '4194304' }
+    - { name: 'net.core.wmem_max', value: '8388608' }
+    - { name: 'net.core.netdev_max_backlog', value: '300000' }
+    - { name: 'net.ipv4.udp_rmem_min', value: '8388608' }
+    - { name: 'net.ipv4.udp_wmem_min', value: '8388608' }
+    - { name: 'net.core.optmem_max', value: '8388608' }
+    - { name: 'net.ipv4.udp_mem', value: '11416320 15221760 22832640' }
+    - { name: 'net.core.netdev_budget', value: '1024' }

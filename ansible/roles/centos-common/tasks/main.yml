@@ -1,0 +1,102 @@
+---
+- name: change hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: deploy resolv file
+  template:
+    src: resolv.conf.j2
+    dest: /etc/resolv.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: disable lookup feature to sshd
+  replace:
+    path: /etc/ssh/sshd_config
+    regexp: "#UseDNS yes"
+    replace: "UseDNS no"
+  notify: restart sshd
+
+- name: create the file
+  file:
+    path: /root/.ssh/config
+    state: touch
+
+- name: turn off checking host key on host
+  lineinfile:
+    path: /root/.ssh/config
+    line: |
+      HOST 192.168.*
+      UserKnownHostsFile /dev/null
+      StrictHostKeyChecking no
+
+- name: deploy hosts file
+  template:
+    src: hosts.j2
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: 0644
+  when: args_hosts_update == "yes"
+
+- name: create key-chain directory
+  file:
+    path: "/home/{{ username }}/.ssh/"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 700
+  when: args_pubkey_update == "yes"
+
+- name: deploy public key for user
+  template:
+    src: authorized_keys.j2
+    dest: "/home/{{ username }}/.ssh/authorized_keys"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0600
+    backup: yes
+  when: args_pubkey_update == "yes"
+
+- name: install epel repository
+  yum:
+    name: epel-release
+    state: present
+
+- name: update latest version of packages
+  yum:
+    name: "*"
+    state: latest
+    disablerepo: "epel"
+  ignore_errors: yes
+  when: args_centos_updqate == "yes"
+
+- name: install basic packages
+  yum:
+    name: "{{ basic_packages }}"
+    state: present
+    update_cache: yes
+
+- name: install debuging packages
+  yum:
+    name: "{{ debuging_packages }}"
+    state: present
+  when: args_debug_update == "yes"
+
+- name: allow port for services
+  include: firewall.yml
+  when: args_firewall_update == "yes"
+
+- name: insert alias at bashrc
+  lineinfile:
+    path: /root/.bashrc
+    line: "alias opsconf='grep -v '\\''^$\\|^\\s*\\#'\\'' '"
+
+- name: register cronjob for neutorn-ovs-agent
+  template:
+    src: neutron-ovs-agent.j2
+    dest: /etc/cron.weekly/neutron-ovs-agent
+    owner: root
+    group: root
+    mode: 0700

@@ -4,6 +4,7 @@
   get_url:
     url: https://my-netdata.io/kickstart.sh
     dest: /root/netdata.sh
+    validate_certs: no
     mode: 0700
 
 - command: which netdata

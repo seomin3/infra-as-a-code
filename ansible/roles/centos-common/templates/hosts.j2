@@ -1,0 +1,15 @@
+################################################################################
+#                                                                              #
+#   This file has been managed by Ansible.                                     #
+#                                                                              #
+################################################################################
+127.0.0.1	localhost
+{% for host in groups['all'] %}
+{% for ip in hostvars[host]['ansible_all_ipv4_addresses'] %}
+{% if ((ip != '192.168.122.1') %}
+{% if ((ip != '127.0.0.1') %}
+{{ ip }}	{{ hostvars[host]['ansible_hostname'] }}  {{ hostvars[host]['ansible_hostname'] }}.test.example.com
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endfor %}
