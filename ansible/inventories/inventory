@@ -69,9 +69,6 @@ scs-openstack-controller01 ansible_ssh_host=192.168.11.30
 scs-openstack-compute01 ansible_ssh_host=192.168.11.31
 scs-openstack-compute02 ansible_ssh_host=192.168.11.32
 scs-openstack-compute03 ansible_ssh_host=192.168.11.33
-[scs-comp1]
-scs-openstack-compute04 ansible_ssh_host=192.168.11.36
-scs-openstack-compute05 ansible_ssh_host=192.168.11.37
 
 ###############################################################################
 #  SCEF                                                                       #
