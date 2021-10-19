@@ -1,4 +1,12 @@
 ---
+# install flag
+reinstall_agent: false
+
+# cloud flags
+netdata_token: l-CYfLNNcHoYwgXoWDH0XYAOjE-9-fpNnW_x67797JWgs3AE6wF0u8lcIJv3xooymVjmP4-xgTrYw2_PT9nztqB7C_LUtuRgf7Kq4llv5Nyo8XrBVT8S1sq1ejwFQtrNWj6pKXo
+netdata_room: 932d9add-08e8-42e0-b6e3-0404ffb7806a
+
+# controller flags
 RABBITMQ_USER: sysop
 RABBITMQ_PASS: sysop
 MYSQL_USER: sysop

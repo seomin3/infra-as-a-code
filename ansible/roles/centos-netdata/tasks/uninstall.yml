@@ -1,0 +1,23 @@
+---
+- name: stop agent
+  systemd:
+    name: netdata
+    state: stopped
+
+- command: which /usr/libexec/netdata/netdata-uninstaller.sh
+  register: which_result
+  ignore_errors: yes
+
+- name: uninstall agent
+  command: /usr/libexec/netdata/netdata-uninstaller.sh --force --yes
+  when: which_result.rc == 0
+  register: uninstall_result
+
+- name: clean up agent's garbage
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /etc/netdata/
+    - /var/lib/netdata/
+  when: uninstall_result.rc == 0

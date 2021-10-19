@@ -1,6 +1,9 @@
 ---
 
+- include: uninstall.yml
+  when: reinstall_agent
+
 - include: install.yml
-- include: config-all.yml
-- include: config-cont.yml
-  when: "'openstack-cont' in group_names"
+#- include: config-all.yml
+#- include: config-cont.yml
+#  when: "'openstack-cont' in group_names"

@@ -2,8 +2,8 @@
 
 - name: download install script
   get_url:
-    url: https://my-netdata.io/kickstart.sh
-    dest: /root/netdata.sh
+    url: https://my-netdata.io/kickstart-static64.sh
+    dest: /root/netdata-static64.sh
     validate_certs: no
     mode: 0700
 
@@ -12,7 +12,7 @@
   ignore_errors: yes
 
 - name: install netdata
-  command: bash /root/netdata.sh --non-interactive
+  command: bash /root/netdata-static64.sh --non-interactive
   register: bash_result
   when: which_result.rc != 0
 
@@ -26,3 +26,13 @@
     jump: ACCEPT
     state: present
   ignore_errors: yes
+
+- command: /opt/netdata/bin/netdatacli aclk-state | grep Claimed | grep No
+  register: claimed_result
+  ignore_errors: yes
+
+- name: claim agent to cloud
+  command: /opt/netdata/bin/netdata-claim.sh -token={{ netdata_token }} -rooms={{ netdata_room }} -url=https://app.netdata.cloud
+  when: claimed_result.rc == 0
+  ignore_errors: yes
+
